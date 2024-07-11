@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Maps API - Traffic Example with Legend</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMStVxIAgJETgmkls2wGVe_VU-YCscJIU&callback=initMap" async defer></script>
+  <script>
+    // Initialize and load the map
+    function initMap() {
+      // Specify the center and zoom level of the map
+      var mapOptions = {
+        center: { lat: 30.267153, lng: -97.743057 }, // San Francisco coordinates
+        zoom: 12
+      };
+
+      // Create a new map instance
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      // Enable traffic layer
+      var trafficLayer = new google.maps.TrafficLayer();
+      trafficLayer.setMap(map);
+
+      // Add legend
+      var legend = document.getElementById("legend");
+      map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+    }
+  </script>
+  <style>
+    #map {
+      height: 900px;
+      width: 100%;
+    }
+
+    #legend {
+  background-color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px;
+  border: 1px solid #ccc;
+  width: 300px; /* Adjust the width as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.legend-icon {
+  width: 30px; /* Adjust the icon size as needed */
+  height: 30px; /* Adjust the icon size as needed */
+  margin-right: 10px;
+}
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div id="legend">
+    <div class="legend-item">
+      <img class="legend-icon" src="https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png">
+      <span>Light traffic</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png">
+      <span>Moderate traffic</span>
+    </div>
+    <div class="legend-item">
+      <img class="legend-icon" src="https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png">
+      <span>Heavy traffic</span>
+    </div>
+  </div>
+</body>
+</html>

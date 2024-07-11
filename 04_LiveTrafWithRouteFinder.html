@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Google Maps API - Live Trafic with Route Optimization Tool, Search, and
+      Route Finder
+    </title>
+    <script src="./RouteFinder.js"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMStVxIAgJETgmkls2wGVe_VU-YCscJIU&callback=initMap"
+      async
+      defer
+    ></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMStVxIAgJETgmkls2wGVe_VU-YCscJIU&libraries=places&callback=initMap"
+      async
+      defer
+    ></script>
+
+    <script>
+      var map;
+
+      function initMap() {
+        var mapOptions = {
+          center: { lat: 30.267153, lng: -97.743057 },
+          zoom: 12,
+        };
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
+
+        var legend = document.getElementById("legend");
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+
+        var searchForm = document.getElementById("search-form");
+        searchForm.addEventListener("submit", performSearch);
+
+        var directionsForm = document.getElementById("directions-form");
+        directionsForm.addEventListener("submit", getDirections);
+      }
+
+      function performSearch(event) {
+        event.preventDefault();
+        var userInput = document.getElementById("search-input").value;
+        var placesService = new google.maps.places.PlacesService(map);
+        var request = {
+          query: userInput,
+        };
+        placesService.textSearch(request, function (results, status) {
+          if (
+            status === google.maps.places.PlacesServiceStatus.OK &&
+            results &&
+            results.length > 0
+          ) {
+            var firstResult = results[0];
+            var location = firstResult.geometry.location;
+            var viewport = firstResult.geometry.viewport;
+            map.setCenter(location);
+            map.fitBounds(viewport);
+          } else {
+            console.log("No results found for the search query.");
+          }
+        });
+      }
+
+      function getDirections(event) {
+        event.preventDefault();
+        var originInput = document.getElementById("origin-input").value;
+        var destinationInput =
+          document.getElementById("destination-input").value;
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+        var request = {
+          origin: originInput,
+          destination: destinationInput,
+          travelMode: google.maps.TravelMode.DRIVING,
+        };
+        directionsService.route(request, function (result, status) {
+          if (status === google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(result);
+            var directionsResultDiv =
+              document.getElementById("directions-result");
+            directionsResultDiv.innerHTML = "";
+            var directionsResultText = document.createElement("div");
+            directionsResultText.textContent = "Directions: ";
+            directionsResultDiv.appendChild(directionsResultText);
+            var steps = result.routes[0].legs[0].steps;
+            for (var i = 0; i < steps.length; i++) {
+              var stepText = document.createElement("div");
+              stepText.textContent = steps[i].instructions;
+              directionsResultDiv.appendChild(stepText);
+            }
+          } else {
+            console.log("Error occurred while retrieving directions:", status);
+          }
+        });
+      }
+    </script>
+    <style>
+      #map {
+        height: 550px;
+        width: 100%;
+      }
+
+      #legend {
+        background-color: #fff;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        margin: 10px;
+        border: 1px solid #ccc;
+        width: 300px;
+        font-size: 16px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .legend-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+
+      #search-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      #search-form {
+        display: inline-block;
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      #search-input {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 16px;
+        width: 300px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      #search-input:focus {
+        outline: none;
+        box-shadow: 0 0 5px #2196f3;
+      }
+
+      #search-button {
+        padding: 10px 20px;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      #search-button:hover {
+        background-color: #0a7bcd;
+      }
+
+      #directions-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      #directions-form {
+        display: inline-block;
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      #origin-input,
+      #destination-input {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-size: 16px;
+        width: 300px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
+
+      #origin-input:focus,
+      #destination-input:focus {
+        outline: none;
+        box-shadow: 0 0 5px #2196f3;
+      }
+
+      .route-button {
+        padding: 10px 20px;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      .route-button:hover {
+        background-color: #0a7bcd;
+      }
+
+      #logo-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      #logo-container img {
+        max-width: 200px;
+        height: auto;
+      }
+
+      .page-title {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 40px;
+        font-family: "Font Name", Arial, sans-serif;
+        color: #2196f3;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      @font-face {
+        font-family: "Font Name";
+        src: url("path-to-your-font.woff2") format("woff2"),
+          url("path-to-your-font.woff") format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="page-title">Live Traffic</h1>
+    <div id="map"></div>
+    <div id="legend">
+      <div class="legend-item">
+        <img
+          class="legend-icon"
+          src="https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
+        />
+        <span>Light traffic</span>
+      </div>
+      <div class="legend-item">
+        <img
+          class="legend-icon"
+          src="https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png"
+        />
+        <span>Moderate traffic</span>
+      </div>
+      <div class="legend-item">
+        <img
+          class="legend-icon"
+          src="https://maps.gstatic.com/mapfiles/ms2/micons/orange-dot.png"
+        />
+        <span>Heavy traffic</span>
+      </div>
+      <div class="legend-item">
+        <img
+          class="legend-icon"
+          src="https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"
+        />
+        <span>Congested traffic</span>
+      </div>
+    </div>
+    <div id="search-container">
+      <form id="search-form">
+        <input
+          id="search-input"
+          type="text"
+          placeholder="Search for a location"
+        />
+        <button id="search-button" type="submit">Search</button>
+      </form>
+    </div>
+    <div id="directions-container">
+      <form id="directions-form">
+        <input id="origin-input" type="text" placeholder="Starting point" />
+        <input id="destination-input" type="text" placeholder="Destination" />
+        <button class="route-button" type="submit">Get Directions</button>
+      </form>
+      <div id="directions-result"></div>
+    </div>
+
+    <script>
+      var map;
+
+      function initMap() {
+        var mapOptions = {
+          center: { lat: 30.267153, lng: -97.743057 },
+          zoom: 12,
+        };
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
+
+        var legend = document.getElementById("legend");
+        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+
+        var searchForm = document.getElementById("search-form");
+        searchForm.addEventListener("submit", performSearch);
+
+        var directionsForm = document.getElementById("directions-form");
+        directionsForm.addEventListener("submit", getDirections);
+      }
+
+      function performSearch(event) {
+        event.preventDefault();
+        var searchInput = document.getElementById("search-input").value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: searchInput }, function (results, status) {
+          if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+            var location = results[0].geometry.location;
+            map.setCenter(location);
+            new google.maps.Marker({
+              map: map,
+              position: location,
+            });
+          } else {
+            console.log("No results found for the search query.");
+          }
+        });
+      }
+
+      function getDirections(event) {
+        event.preventDefault();
+        var originInput = document.getElementById("origin-input").value;
+        var destinationInput =
+          document.getElementById("destination-input").value;
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+        var request = {
+          origin: originInput,
+          destination: destinationInput,
+          travelMode: google.maps.TravelMode.DRIVING,
+        };
+        directionsService.route(request, function (result, status) {
+          if (status === google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(result);
+            var directionsResultDiv =
+              document.getElementById("directions-result");
+            directionsResultDiv.innerHTML = "";
+            var directionsResultText = document.createElement("div");
+            directionsResultText.innerHTML = "<strong>Directions:</strong>";
+            directionsResultDiv.appendChild(directionsResultText);
+            var steps = result.routes[0].legs[0].steps;
+            for (var i = 0; i < steps.length; i++) {
+              var stepText = document.createElement("div");
+              stepText.innerHTML =
+                "<div style='font-size: 0.9em'>" +
+                steps[i].instructions +
+                "</div>";
+              directionsResultDiv.appendChild(stepText);
+            }
+          } else {
+            console.log("Error occurred while retrieving directions:", status);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
