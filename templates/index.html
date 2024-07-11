@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fuel Efficiency Calculator</title>
+  </head>
+  <body>
+    <h1>Fuel Efficiency Calculator</h1>
+    <form id="fuelForm">
+      <label for="distance">Distance (km):</label>
+      <input type="number" id="distance" name="distance" required />
+      <br />
+      <label for="fuelUsed">Fuel Used (liters):</label>
+      <input type="number" id="fuelUsed" name="fuelUsed" required />
+      <br />
+      <button type="button" onclick="calculateEfficiency()">
+        Calculate Efficiency
+      </button>
+    </form>
+    <p id="result"></p>
+
+    <script>
+      function calculateEfficiency() {
+        const form = document.getElementById("fuelForm");
+        const formData = new FormData(form);
+
+        fetch("/calculate_efficiency", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.efficiency !== undefined) {
+              document.getElementById(
+                "result"
+              ).innerText = `Fuel Efficiency: ${data.efficiency} km/l`;
+            } else {
+              document.getElementById(
+                "result"
+              ).innerText = `Error: ${data.error}`;
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("result").innerText =
+              "Error in calculating efficiency.";
+          });
+      }
+    </script>
+  </body>
+</html>
