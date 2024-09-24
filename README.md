@@ -1,3 +1,16 @@
+# Project Title: NavVista
+# Platform: Quantum X Hackathon
+# Technologies Used: HTML, CSS, JavaScript, Google Cloud APIs
+
+I developed an interactive travel planning application called NavVista, aimed at simplifying travel itineraries and enhancing user experiences. The application leverages Google Cloud APIs to offer features such as:
+
+Place Search: Users can easily search for popular destinations and attractions, making trip planning more efficient.
+Dynamic Maps: Interactive maps provide visual context for users, allowing them to explore locations seamlessly.
+Route Directions: Users can find optimal routes between destinations, ensuring a smooth travel experience.
+This project showcases my ability to integrate various technologies and APIs to create user-centric applications. 
+
+# Check it out here: https://navvista.tiiny.site
+
 # Scope
 This project will test live traffic data through multiple platforms (API) for potential inclusion in VZ Viewer as a simple tool to check the live traffic.  Other uses comprise traffic volume at different hours of the day, months, year, and other non-arbitrary time frames. 
 # Scenario
