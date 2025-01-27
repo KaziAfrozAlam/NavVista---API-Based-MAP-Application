@@ -9,7 +9,7 @@ Dynamic Maps: Interactive maps provide visual context for users, allowing them t
 Route Directions: Users can find optimal routes between destinations, ensuring a smooth travel experience.
 This project showcases my ability to integrate various technologies and APIs to create user-centric applications. 
 
-# Check it out here: https://navvista.tiiny.site
+# Check it out here: https://navvista.netlify.app/
 
 # Scope
 This project will test live traffic data through multiple platforms (API) for potential inclusion in VZ Viewer as a simple tool to check the live traffic.  Other uses comprise traffic volume at different hours of the day, months, year, and other non-arbitrary time frames. 
