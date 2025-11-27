@@ -59,4 +59,4 @@ def get_google_route(locations, vehicle_type, optimize_for, avoid_tolls, avoid_h
     return [{"error": "No valid route found."}]
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
