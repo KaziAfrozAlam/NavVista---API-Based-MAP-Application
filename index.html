@@ -10,23 +10,26 @@
       async
       defer
     ></script>
-      <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
   <h1 class="page-title">Live Traffic</h1>
   <div id="map"></div>
+
   <div id="legend">
     <div class="legend-item"><div class="legend-line light-traffic"></div><span>Light traffic</span></div>
     <div class="legend-item"><div class="legend-line moderate-traffic"></div><span>Moderate traffic</span></div>
     <div class="legend-item"><div class="legend-line heavy-traffic"></div><span>Heavy traffic</span></div>
     <div class="legend-item"><div class="legend-line congested-traffic"></div><span>Congested traffic</span></div>
   </div>
+
   <div id="search-container">
     <form id="search-form">
       <input id="search-input" type="text" placeholder="Search for a location" />
       <button id="search-button" type="submit">Search</button>
     </form>
   </div>
+
   <div id="directions-container">
     <form id="directions-form">
       <input id="origin-input" type="text" placeholder="Starting point" />
@@ -35,6 +38,7 @@
     </form>
     <div id="directions-result"></div>
   </div>
+
   <input type="checkbox" id="toggle-route"/>
   <button id="toggle-button" class="route-button">Toggle Route</button>
 
@@ -42,7 +46,8 @@
     let map, directionsService, directionsDisplay, currentRoute, trafficLayer;
     let routeVisible = false;
 
-    function initMap() {
+    // Make sure the DOM is fully loaded before attaching listeners
+    window.initMap = function() {
       map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: 30.267153, lng: -97.743057 },
         zoom: 12,
@@ -66,14 +71,17 @@
       directionsDisplay = new google.maps.DirectionsRenderer();
       directionsDisplay.setMap(map);
 
+      // Attach listeners **after map is initialized**
       document.getElementById("search-form").addEventListener("submit", performSearch);
       document.getElementById("directions-form").addEventListener("submit", getDirections);
       document.getElementById("toggle-button").addEventListener("click", toggleRoute);
-    }
+    };
 
     function performSearch(event) {
       event.preventDefault();
-      const searchInput = document.getElementById("search-input").value;
+      const searchInput = document.getElementById("search-input").value.trim();
+      if (!searchInput) return;
+
       const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ address: searchInput }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
@@ -81,15 +89,16 @@
           map.setCenter(location);
           new google.maps.Marker({ map, position: location });
         } else {
-          console.log("No results found for the search query.");
+          alert("No results found for that location.");
         }
       });
     }
 
     function getDirections(event) {
       event.preventDefault();
-      const originInput = document.getElementById("origin-input").value;
-      const destinationInput = document.getElementById("destination-input").value;
+      const originInput = document.getElementById("origin-input").value.trim();
+      const destinationInput = document.getElementById("destination-input").value.trim();
+      if (!originInput || !destinationInput) return;
 
       directionsService.route({
         origin: originInput,
@@ -103,14 +112,13 @@
 
           const directionsResultDiv = document.getElementById("directions-result");
           directionsResultDiv.innerHTML = "<strong>Directions:</strong>";
-          const steps = result.routes[0].legs[0].steps;
-          steps.forEach(step => {
+          result.routes[0].legs[0].steps.forEach(step => {
             const stepDiv = document.createElement("div");
             stepDiv.innerHTML = `<div style='font-size:0.9em'>${step.instructions}</div>`;
             directionsResultDiv.appendChild(stepDiv);
           });
         } else {
-          console.log("Error retrieving directions:", status);
+          alert("Error retrieving directions. Make sure your addresses are valid.");
         }
       });
     }
