@@ -1,186 +1,177 @@
+/* Map Container */
 #map {
-    flex: 1;
-    height: 500px;
-    width: 100%;
-    position: relative;
-  }
+  flex: 1;
+  height: 500px;
+  width: 100%;
+  position: relative;
+}
 
-  #legend {
-    flex-shrink: 0;
-    background-color: #fff;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    margin: 10; /* Set margin to 0 */
-    border: 1px solid #ccc;
-    max-width: 200px;
-    font-size: 16px;
-  }
+/* Legend */
+#legend {
+  flex-shrink: 0;
+  background-color: #fff;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin: 10px; /* Fixed missing unit */
+  border: 1px solid #ccc;
+  max-width: 200px;
+  font-size: 16px;
+}
 
-  .legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .legend-icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-  }
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
 .legend-line {
-width: 30px;
-height: 5px;
+  width: 30px;
+  height: 5px;
+  margin-right: 10px;
 }
 
-.light-traffic {
-background-color: #00ff00 ;
+.light-traffic { background-color: #00ff00; }
+.moderate-traffic { background-color: yellow; }
+.heavy-traffic { background-color: orange; }
+.congested-traffic { background-color: red; }
+
+/* Search Container */
+#search-container {
+  text-align: center;
+  margin-top: 20px;
 }
 
-.moderate-traffic {
-background-color: yellow;
+#search-form {
+  display: inline-block;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.heavy-traffic {
-background-color: orange;
+#search-input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 16px;
+  width: 300px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.congested-traffic {
-background-color: red;
+#search-input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #2196F3;
 }
-  #search-container {
-    text-align: center;
-    margin-top: 20px;
-  }
 
-  #search-form {
-    display: inline-block;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 5px;
-  }
+#search-button {
+  padding: 10px 20px;
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
 
-  #search-input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 16px;
-    width: 300px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
+#search-button:hover {
+  background-color: #0a7bcd;
+}
 
-  #search-input:focus {
-    outline: none;
-    box-shadow: 0 0 5px #2196F3;
-  }
+/* Directions Container */
+#directions-container {
+  text-align: center;
+  margin-top: 20px;
+}
 
-  #search-button {
-    padding: 10px 20px;
-    background-color: #2196F3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
+#directions-form {
+  display: inline-block;
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 5px;
+}
 
-  #search-button:hover {
-    background-color: #0a7bcd;
-  }
+#origin-input,
+#destination-input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  font-size: 16px;
+  width: 300px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
 
-  #directions-container {
-    text-align: center;
-    margin-top: 20px;
-  }
+#origin-input:focus,
+#destination-input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #2196F3;
+}
 
-  #directions-form {
-    display: inline-block;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-radius: 5px;
-  }
+/* Route Buttons */
+.route-button {
+  padding: 10px 20px;
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+  float: right;
+}
 
-  #origin-input,
-  #destination-input {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 16px;
-    width: 300px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  }
+.route-button:hover {
+  background-color: #0a7bcd;
+}
 
-  #origin-input:focus,
-  #destination-input:focus {
-    outline: none;
-    box-shadow: 0 0 5px #2196F3;
-  }
+/* Page Title */
+.page-title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 32px;
+  font-family: 'Roboto', Arial, sans-serif; /* Use embedded font */
+  color: #2196F3;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
 
-  .route-button {
-    padding: 10px 20px;
-    background-color: #2196F3;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-  }
+/* Font Embed */
+@font-face {
+  font-family: 'Roboto';
+  src: url('fonts/Roboto-Regular.woff2') format('woff2'),
+       url('fonts/Roboto-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  .route-button:hover {
-    background-color: #0a7bcd;
-  }
-
-  #logo-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  #logo-container img {
-    max-width: 200px;
-    height: auto;
-  }
-
-  .page-title {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 32px;
-    font-family: 'Font Name', Arial, sans-serif;
-    color: #2196F3;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  @font-face {
-    font-family: 'Font Name';
-    src: url('path-to-your-font.woff2') format('woff2'),
-         url('path-to-your-font.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
-
+/* Toggle Route Checkbox (hidden) */
 #toggle-route {
-display: none; /* Hide the checkbox by default */
+  display: none;
 }
 
 #toggle-route + label {
-margin-left: 10px;
+  margin-left: 10px;
 }
 
-
-.route-button {
-margin-right: 10px;
-float: right;
-}
-
+/* Toggle Button */
 #toggle-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1;
-  }
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+/* Logo */
+#logo-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#logo-container img {
+  max-width: 200px;
+  height: auto;
+}
